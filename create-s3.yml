@@ -1,10 +1,12 @@
 ---
 - name: Create an S3 bucket with versioning, static web hosting, and public access
   hosts: localhost
+  vars:
+    bucket_name: mys3bucketreactjs
   tasks:
     - name: Create an S3 bucket
       amazon.aws.s3_bucket:
-        name: mys3bucketreactjs
+        name: "{{ bucket_name }}"
         state: present
         region: us-east-1
         website:
@@ -16,7 +18,7 @@
 
     - name: Enable versioning on the S3 bucket
       amazon.aws.s3_bucket_versioning:
-        name: my-s3-bucket
+        name: "{{ bucket_name }}"
         state: enabled
         region: us-east-1
 
@@ -26,5 +28,5 @@
 
     - name: Set bucket policy to allow public access
       amazon.aws.s3_bucket_policy:
-        bucket: my-s3-bucket
+        bucket: "{{ bucket_name }}"
         policy: "{{ lookup('file', 'policy.json') }}"
