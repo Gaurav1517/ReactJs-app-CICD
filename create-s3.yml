@@ -4,9 +4,9 @@
   tasks:
     - name: Create an S3 bucket
       amazon.aws.s3_bucket:
-        name: my-s3-bucket
+        name: mys3bucketreactjs
         state: present
-        region: us-west-2
+        region: us-east-1
         website:
           index_document: index.html
           error_document: error.html
@@ -18,7 +18,7 @@
       amazon.aws.s3_bucket_versioning:
         name: my-s3-bucket
         state: enabled
-        region: us-west-2
+        region: us-east-1
 
     - name: Print the result
       debug:
