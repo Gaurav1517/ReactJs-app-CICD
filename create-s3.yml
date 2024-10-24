@@ -1,0 +1,30 @@
+---
+- name: Create an S3 bucket with versioning, static web hosting, and public access
+  hosts: localhost
+  tasks:
+    - name: Create an S3 bucket
+      amazon.aws.s3_bucket:
+        name: my-s3-bucket
+        state: present
+        region: us-west-2
+        website:
+          index_document: index.html
+          error_document: error.html
+        tags:
+          example: tag1
+      register: s3_result
+
+    - name: Enable versioning on the S3 bucket
+      amazon.aws.s3_bucket_versioning:
+        name: my-s3-bucket
+        state: enabled
+        region: us-west-2
+
+    - name: Print the result
+      debug:
+        var: s3_result
+
+    - name: Set bucket policy to allow public access
+      amazon.aws.s3_bucket_policy:
+        bucket: my-s3-bucket
+        policy: "{{ lookup('file', 'policy.json') }}"
