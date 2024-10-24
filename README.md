@@ -229,3 +229,31 @@ Make sure you have the necessary dependencies (boto3 and botocore) installed as 
 bash
 
 pip install boto3 botocore
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Git SCM Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Gaurav1517/ReactJs-app-CICD.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jenkins-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh 'chmod +x script.js || true'
+                    sh './script.js'
+                }
+            }
+        }
+        stage('Create S3 bucket playbook') {
+            steps {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jenkins-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh "ansible-playbook create-s3.yml"
+                }
+            }
+        }
+    }
+}
+
