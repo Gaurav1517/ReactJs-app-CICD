@@ -14,6 +14,11 @@ ansible --version
 ansible-galaxy collection install community.aws
 ansible-galaxy collection list | grep community.aws
 
+# Install aws module
+ansible-galaxy collection install amazon.aws
+ansible-galaxy collection list | grep amazon.aws
+
+
 # Install necessary dependencies (boto3 and botocore)
 pip3 install boto3 botocore
 pip3 list | grep -E 'boto3|botocore'
