@@ -30,4 +30,4 @@
     - name: Set bucket policy to allow public access
       amazon.aws.s3_bucket_policy:
         bucket: "{{ bucket_name }}"
-        policy: "{{ lookup('file', 'policy.json') }}"
+        policy: "{{ lookup('template', 'policy.json') }}"
