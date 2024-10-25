@@ -1,6 +1,8 @@
 ---
 - name: Create an S3 bucket with versioning, static web hosting, and public access
   hosts: localhost
+  collections:
+    - amazon.aws
   vars:
     bucket_name: mys3bucketreactjs
     aws_region: us-east-1
