@@ -6,30 +6,27 @@
   vars:
     bucket_name: mys3bucketreactjs
     aws_region: us-east-1
+    ansible_python_interpreter: /usr/bin/python3.12  # Specify the Python interpreter
   tasks:
-    - name: Create an S3 bucket
+    - name: Configure an S3 bucket
       amazon.aws.s3_bucket:
         name: "{{ bucket_name }}"
         state: present
         region: "{{ aws_region }}"
-        website:
-          index_document: index.html
-          error_document: error.html
+        versioning: true
+        policy: "{{ lookup('template', 'policy.json') }}"
         tags:
           example: tag1
       register: s3_result
 
-    - name: Enable versioning on the S3 bucket
-      amazon.aws.s3_bucket_versioning:
+    - name: Configure an s3 bucket as a website with index and error pages
+      community.aws.s3_website:
         name: "{{ bucket_name }}"
-        state: enabled
-        region: "{{ aws_region }}"
+        suffix: home.html
+        error_key: errors/404.html
+        state: present
+      when: s3_result.changed # only run if bucket was created or modify.
 
-    - name: Print the result
+    - name: Print the result of s3 bucket creation
       debug:
         var: s3_result
-
-    - name: Set bucket policy to allow public access
-      amazon.aws.s3_bucket_policy:
-        bucket: "{{ bucket_name }}"
-        policy: "{{ lookup('template', 'policy.json') }}"
