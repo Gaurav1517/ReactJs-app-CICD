@@ -1,4 +1,3 @@
-cat create-s3.yml
 ---
 - name: Create an S3 bucket with versioning and static website hosting
   hosts: localhost
