@@ -58,3 +58,8 @@ Note: "Block Public Access settings for this account" should be enable.
 ## Application Screenshot
 
 ![Application Screenshot](Images/OutputScreenshot.png)
+![Application Screenshot](Images/s3-bucket-object.png)
+![Application Screenshot](Images/versioning-Properties.png)
+![Application Screenshot](Images/webHosting-url.png)
+![Application Screenshot](Images/bucket-policy.png)
+
